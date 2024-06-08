@@ -1,0 +1,31 @@
+﻿﻿@model IEnumerable<SwimmingLessonManagementSystem.Models.LessonDto>
+
+<h2>Lessons</h2>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.LessonID</td>
+                <td>@item.Title</td>
+                <td>@item.Description</td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.LessonID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.LessonID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.LessonID })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

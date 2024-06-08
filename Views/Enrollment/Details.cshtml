@@ -1,0 +1,23 @@
+﻿@model SwimmingLessonManagementSystem.Models.EnrollmentDto
+
+<h2>Enrollment Details</h2>
+
+<div>
+    <h4>EnrollmentDto</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LessonID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LessonID)
+        </dd>
+
+        <!-- Add other fields as needed -->
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.EnrollmentID }) |
+    @Html.ActionLink("Back to List", "List")
+</p>
