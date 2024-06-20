@@ -10,6 +10,9 @@ using System.Web.Script.Serialization;
 
 namespace SwimmingLessonManagementSystem.Controllers
 {
+    /// <summary>
+    /// Controller for handling views and actions related to enrollments.
+    /// </summary>
     public class EnrollmentController : Controller
     {
         private static readonly HttpClient client;
@@ -22,8 +25,13 @@ namespace SwimmingLessonManagementSystem.Controllers
             client.BaseAddress = new Uri("https://localhost:44358/api/enrollmentdata/");
         }
 
-        // GET: Enrollment/List
-        // Displays a list of enrollments
+        /// <summary>
+        /// Displays a list of enrollments.
+        /// </summary>
+        /// <returns>ActionResult containing a view with a list of EnrollmentDto objects.</returns>
+        /// <example>
+        /// GET: Enrollment/List
+        /// </example>
         public ActionResult List()
         {
             string url = "listenrollments";
@@ -36,8 +44,14 @@ namespace SwimmingLessonManagementSystem.Controllers
             return View(enrollments);
         }
 
-        // GET: Enrollment/Details/1
-        // Displays details of a specific enrollment
+        /// <summary>
+        /// Displays details of a specific enrollment.
+        /// </summary>
+        /// <param name="id">The ID of the enrollment to display.</param>
+        /// <returns>ActionResult containing a view with details of the selected EnrollmentDto object.</returns>
+        /// <example>
+        /// GET: Enrollment/Details/1
+        /// </example>
         public ActionResult Details(int id)
         {
             string url = "findenrollment/" + id;
@@ -50,15 +64,26 @@ namespace SwimmingLessonManagementSystem.Controllers
             return View(selectedEnrollment);
         }
 
-        // GET: Enrollment/Create
-        // Displays the form for creating a new enrollment
+        /// <summary>
+        /// Displays the form for creating a new enrollment.
+        /// </summary>
+        /// <returns>ActionResult containing a view for creating a new EnrollmentDto object.</returns>
+        /// <example>
+        /// GET: Enrollment/Create
+        /// </example>
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Enrollment/Create
-        // Handles submission of the form for creating a new enrollment
+        /// <summary>
+        /// Handles submission of the form for creating a new enrollment.
+        /// </summary>
+        /// <param name="enrollment">The EnrollmentDto object containing data for the new enrollment.</param>
+        /// <returns>ActionResult that redirects to the list of enrollments after successful creation, or re-displays the form on failure.</returns>
+        /// <example>
+        /// POST: Enrollment/Create
+        /// </example>
         [HttpPost]
         public ActionResult Create(EnrollmentDto enrollment)
         {
@@ -76,8 +101,14 @@ namespace SwimmingLessonManagementSystem.Controllers
             }
         }
 
-        // GET: Enrollment/Edit/1
-        // Displays the form for editing a specific enrollment
+        /// <summary>
+        /// Displays the form for editing a specific enrollment.
+        /// </summary>
+        /// <param name="id">The ID of the enrollment to edit.</param>
+        /// <returns>ActionResult containing a view for editing the selected EnrollmentDto object.</returns>
+        /// <example>
+        /// GET: Enrollment/Edit/1
+        /// </example>
         public ActionResult Edit(int id)
         {
             string url = "findenrollment/" + id;
@@ -86,8 +117,15 @@ namespace SwimmingLessonManagementSystem.Controllers
             return View(selectedEnrollment);
         }
 
-        // POST: Enrollment/Edit/1
-        // Handles submission of the form for editing a specific enrollment
+        /// <summary>
+        /// Handles submission of the form for editing a specific enrollment.
+        /// </summary>
+        /// <param name="id">The ID of the enrollment to edit.</param>
+        /// <param name="enrollment">The updated EnrollmentDto object containing new data.</param>
+        /// <returns>ActionResult that redirects to the details view of the updated enrollment after successful update, or re-displays the edit form on failure.</returns>
+        /// <example>
+        /// POST: Enrollment/Edit/1
+        /// </example>
         [HttpPost]
         public ActionResult Edit(int id, EnrollmentDto enrollment)
         {
@@ -105,8 +143,14 @@ namespace SwimmingLessonManagementSystem.Controllers
             }
         }
 
-        // GET: Enrollment/Delete/1
-        // Displays confirmation for deleting a specific enrollment
+        /// <summary>
+        /// Displays confirmation for deleting a specific enrollment.
+        /// </summary>
+        /// <param name="id">The ID of the enrollment to delete.</param>
+        /// <returns>ActionResult containing a view for confirming deletion of the selected EnrollmentDto object.</returns>
+        /// <example>
+        /// GET: Enrollment/Delete/1
+        /// </example>
         public ActionResult Delete(int id)
         {
             string url = "findenrollment/" + id;
@@ -115,8 +159,15 @@ namespace SwimmingLessonManagementSystem.Controllers
             return View(selectedEnrollment);
         }
 
-        // POST: Enrollment/Delete/5
-        // Handles deletion of a specific enrollment
+        /// <summary>
+        /// Handles deletion of a specific enrollment.
+        /// </summary>
+        /// <param name="id">The ID of the enrollment to delete.</param>
+        /// <param name="collection">Form collection (unused in this method).</param>
+        /// <returns>ActionResult that redirects to the list of enrollments after successful deletion, or displays an error view on failure.</returns>
+        /// <example>
+        /// POST: Enrollment/Delete/5
+        /// </example>
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {

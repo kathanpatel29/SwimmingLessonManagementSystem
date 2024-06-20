@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Web.Http;
@@ -10,13 +9,21 @@ using SwimmingLessonManagementSystem.Models;
 
 namespace SwimmingLessonManagementSystem.Controllers
 {
+    /// <summary>
+    /// API Controller for managing lessons in the Swimming Lesson Management System.
+    /// </summary>
     public class LessonDataController : ApiController
     {
         // Database context for accessing the database
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/LessonData/ListLessons
-        // Retrieves a list of all lessons and returns it as a collection of LessonDto objects
+        /// <summary>
+        /// Retrieves a list of all lessons and returns it as a collection of LessonDto objects.
+        /// </summary>
+        /// <returns>A collection of LessonDto objects.</returns>
+        /// <example>
+        /// GET: api/LessonData/ListLessons
+        /// </example>
         [HttpGet]
         [Route("api/LessonData/ListLessons")]
         public IEnumerable<LessonDto> ListLessons()
@@ -39,8 +46,14 @@ namespace SwimmingLessonManagementSystem.Controllers
             return lessonDtos;
         }
 
-        // GET: api/LessonData/FindLesson/5
-        // Retrieves the details of a specific lesson by ID and returns it as a LessonDto object
+        /// <summary>
+        /// Retrieves the details of a specific lesson by ID and returns it as a LessonDto object.
+        /// </summary>
+        /// <param name="id">The ID of the lesson to retrieve.</param>
+        /// <returns>An IHttpActionResult containing the LessonDto object.</returns>
+        /// <example>
+        /// GET: api/LessonData/FindLesson/5
+        /// </example>
         [ResponseType(typeof(LessonDto))]
         [HttpGet]
         [Route("api/LessonData/FindLesson/{id}")]
@@ -67,8 +80,14 @@ namespace SwimmingLessonManagementSystem.Controllers
             return Ok(lessonDto);
         }
 
-        // POST: api/LessonData/AddLesson
-        // Adds a new lesson to the system
+        /// <summary>
+        /// Adds a new lesson to the system.
+        /// </summary>
+        /// <param name="lessonDto">The LessonDto object containing the lesson data.</param>
+        /// <returns>An IHttpActionResult containing the created LessonDto object.</returns>
+        /// <example>
+        /// POST: api/LessonData/AddLesson
+        /// </example>
         [ResponseType(typeof(LessonDto))]
         [HttpPost]
         [Route("api/LessonData/AddLesson")]
@@ -94,8 +113,15 @@ namespace SwimmingLessonManagementSystem.Controllers
             return CreatedAtRoute("DefaultApi", new { id = lesson.LessonID }, lessonDto);
         }
 
-        // PUT: api/LessonData/UpdateLesson/id
-        // Updates an existing lesson's details
+        /// <summary>
+        /// Updates an existing lesson's details.
+        /// </summary>
+        /// <param name="id">The ID of the lesson to update.</param>
+        /// <param name="lessonDto">The LessonDto object containing the updated lesson data.</param>
+        /// <returns>An IHttpActionResult with the status of the update operation.</returns>
+        /// <example>
+        /// PUT: api/LessonData/UpdateLesson/id
+        /// </example>
         [ResponseType(typeof(void))]
         [HttpPut]
         [Route("api/LessonData/UpdateLesson/{id}")]
@@ -130,8 +156,14 @@ namespace SwimmingLessonManagementSystem.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // DELETE: api/LessonData/DeleteLesson/id
-        // Deletes a lesson from the system
+        /// <summary>
+        /// Deletes a lesson from the system.
+        /// </summary>
+        /// <param name="id">The ID of the lesson to delete.</param>
+        /// <returns>An IHttpActionResult containing the deleted Lesson object.</returns>
+        /// <example>
+        /// DELETE: api/LessonData/DeleteLesson/id
+        /// </example>
         [ResponseType(typeof(Lesson))]
         [HttpDelete]
         [Route("api/LessonData/DeleteLesson/{id}")]

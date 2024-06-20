@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Web.Http;
@@ -10,12 +9,20 @@ using SwimmingLessonManagementSystem.Models;
 
 namespace SwimmingLessonManagementSystem.Controllers
 {
+    /// <summary>
+    /// API Controller for managing enrollments, including CRUD operations.
+    /// </summary>
     public class EnrollmentDataController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/EnrollmentData/ListEnrollments
-        // Retrieves a list of enrollments along with associated lesson and student information
+        /// <summary>
+        /// Retrieves a list of enrollments along with associated lesson and student information.
+        /// </summary>
+        /// <returns>An IEnumerable of EnrollmentDto objects representing the list of enrollments.</returns>
+        /// <example>
+        /// GET: api/EnrollmentData/ListEnrollments
+        /// </example>
         [HttpGet]
         [Route("api/EnrollmentData/ListEnrollments")]
         public IEnumerable<EnrollmentDto> ListEnrollments()
@@ -37,8 +44,14 @@ namespace SwimmingLessonManagementSystem.Controllers
             return enrollmentDtos;
         }
 
-        // GET: api/EnrollmentData/FindEnrollment/5
-        // Retrieves details of a specific enrollment by ID, including associated lesson and student information
+        /// <summary>
+        /// Retrieves details of a specific enrollment by ID, including associated lesson and student information.
+        /// </summary>
+        /// <param name="id">The ID of the enrollment to retrieve.</param>
+        /// <returns>The IHttpActionResult containing the EnrollmentDto object if found, otherwise NotFound.</returns>
+        /// <example>
+        /// GET: api/EnrollmentData/FindEnrollment/5
+        /// </example>
         [ResponseType(typeof(EnrollmentDto))]
         [HttpGet]
         [Route("api/EnrollmentData/FindEnrollment/{id}")]
@@ -64,8 +77,14 @@ namespace SwimmingLessonManagementSystem.Controllers
             return Ok(enrollmentDto);
         }
 
-        // POST: api/EnrollmentData/AddEnrollment
-        // Adds a new enrollment record
+        /// <summary>
+        /// Adds a new enrollment record to the database.
+        /// </summary>
+        /// <param name="enrollmentDto">The EnrollmentDto object containing enrollment data to add.</param>
+        /// <returns>The IHttpActionResult containing the newly created EnrollmentDto object, or BadRequest if ModelState is invalid.</returns>
+        /// <example>
+        /// POST: api/EnrollmentData/AddEnrollment
+        /// </example>
         [ResponseType(typeof(EnrollmentDto))]
         [HttpPost]
         [Route("api/EnrollmentData/AddEnrollment")]
@@ -91,8 +110,15 @@ namespace SwimmingLessonManagementSystem.Controllers
             return CreatedAtRoute("DefaultApi", new { id = enrollment.EnrollmentID }, enrollmentDto);
         }
 
-        // PUT: api/EnrollmentData/UpdateEnrollment/id
-        // Updates an existing enrollment record
+        /// <summary>
+        /// Updates an existing enrollment record in the database.
+        /// </summary>
+        /// <param name="id">The ID of the enrollment to update.</param>
+        /// <param name="enrollmentDto">The EnrollmentDto object containing updated enrollment data.</param>
+        /// <returns>StatusCode.NoContent if update is successful, BadRequest if ModelState is invalid, NotFound if enrollment not found.</returns>
+        /// <example>
+        /// PUT: api/EnrollmentData/UpdateEnrollment/5
+        /// </example>
         [ResponseType(typeof(void))]
         [HttpPut]
         [Route("api/EnrollmentData/UpdateEnrollment/{id}")]
@@ -126,8 +152,14 @@ namespace SwimmingLessonManagementSystem.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // DELETE: api/EnrollmentData/DeleteEnrollment/id
-        // Deletes an existing enrollment record
+        /// <summary>
+        /// Deletes an existing enrollment record from the database.
+        /// </summary>
+        /// <param name="id">The ID of the enrollment to delete.</param>
+        /// <returns>Ok containing the deleted Enrollment object, or NotFound if enrollment not found.</returns>
+        /// <example>
+        /// DELETE: api/EnrollmentData/DeleteEnrollment/5
+        /// </example>
         [ResponseType(typeof(Enrollment))]
         [HttpDelete]
         [Route("api/EnrollmentData/DeleteEnrollment/{id}")]

@@ -10,13 +10,21 @@ using SwimmingLessonManagementSystem.Models;
 
 namespace SwimmingLessonManagementSystem.Controllers
 {
+    /// <summary>
+    /// API Controller for managing user data.
+    /// </summary>
     public class UserDataController : ApiController
     {
         // Database context for accessing the database
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/UserData/ListUsers
-        // Returns a list of all users in the system
+        /// <summary>
+        /// Retrieves a list of all users in the system.
+        /// </summary>
+        /// <returns>A list of UserDto objects representing all users.</returns>
+        /// <example>
+        /// GET: api/UserData/ListUsers
+        /// </example>
         [HttpGet]
         [Route("api/UserData/ListUsers")]
         public IEnumerable<UserDto> ListUsers()
@@ -35,8 +43,14 @@ namespace SwimmingLessonManagementSystem.Controllers
             return userDtos;
         }
 
-        // GET: api/UserData/FindUser/id
-        // Finds a user by ID and returns the user's details
+        /// <summary>
+        /// Finds a user by ID and returns the user's details.
+        /// </summary>
+        /// <param name="id">The ID of the user to find.</param>
+        /// <returns>An IHttpActionResult containing the UserDto object if found, otherwise NotFound.</returns>
+        /// <example>
+        /// GET: api/UserData/FindUser/5
+        /// </example>
         [ResponseType(typeof(UserDto))]
         [HttpGet]
         [Route("api/UserData/FindUser/{id}")]
@@ -59,8 +73,14 @@ namespace SwimmingLessonManagementSystem.Controllers
             return Ok(userDto);
         }
 
-        // POST: api/UserData/AddUser
-        // Adds a new user to the system
+        /// <summary>
+        /// Adds a new user to the system.
+        /// </summary>
+        /// <param name="userDto">The UserDto object representing the new user.</param>
+        /// <returns>An IHttpActionResult containing the created UserDto object.</returns>
+        /// <example>
+        /// POST: api/UserData/AddUser
+        /// </example>
         [ResponseType(typeof(UserDto))]
         [HttpPost]
         [Route("api/UserData/AddUser")]
@@ -86,8 +106,15 @@ namespace SwimmingLessonManagementSystem.Controllers
             return CreatedAtRoute("DefaultApi", new { id = user.UserID }, userDto);
         }
 
-        // PUT: api/UserData/UpdateUser/id
-        // Updates an existing user's details
+        /// <summary>
+        /// Updates an existing user's details.
+        /// </summary>
+        /// <param name="id">The ID of the user to update.</param>
+        /// <param name="userDto">The UserDto object containing the updated details.</param>
+        /// <returns>An IHttpActionResult indicating the result of the operation.</returns>
+        /// <example>
+        /// PUT: api/UserData/UpdateUser/5
+        /// </example>
         [ResponseType(typeof(void))]
         [HttpPut]
         [Route("api/UserData/UpdateUser/{id}")]
@@ -134,8 +161,14 @@ namespace SwimmingLessonManagementSystem.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // DELETE: api/UserData/DeleteUser/id
-        // Deletes a user from the system
+        /// <summary>
+        /// Deletes a user from the system.
+        /// </summary>
+        /// <param name="id">The ID of the user to delete.</param>
+        /// <returns>An IHttpActionResult containing the deleted User object if successful, otherwise NotFound.</returns>
+        /// <example>
+        /// DELETE: api/UserData/DeleteUser/5
+        /// </example>
         [ResponseType(typeof(User))]
         [HttpDelete]
         [Route("api/UserData/DeleteUser/{id}")]
@@ -153,7 +186,11 @@ namespace SwimmingLessonManagementSystem.Controllers
             return Ok(user);
         }
 
-        // Helper method to check if a user exists by ID
+        /// <summary>
+        /// Checks if a user exists by ID.
+        /// </summary>
+        /// <param name="id">The ID of the user to check.</param>
+        /// <returns>True if the user exists, otherwise false.</returns>
         private bool UserExists(int id)
         {
             return db.Users.Count(e => e.UserID == id) > 0;
