@@ -1,5 +1,9 @@
 ﻿@model SwimmingLessonManagementSystem.Models.EnrollmentDto
 
+@{
+    ViewBag.Title = "Create Enrollment";
+}
+
 <h2>Create Enrollment</h2>
 
 @using (Html.BeginForm())
@@ -7,18 +11,31 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>EnrollmentDto</h4>
+        <h4>Enrollment</h4>
         <hr />
-
         <div class="form-group">
-            @Html.LabelFor(model => model.LessonID, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.LessonID, "Lesson", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.LessonID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownList("LessonID", null, "Select Lesson", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.LessonID, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <!-- Add other fields as needed -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.StudentID, "Student", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("StudentID", null, "Select Student", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.StudentID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Progress, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Progress, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Progress, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -27,3 +44,7 @@
         </div>
     </div>
 }
+
+<div>
+    <a href="@Url.Action("List", "Enrollment")">Back to List</a>
+</div>

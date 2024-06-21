@@ -1,23 +1,26 @@
 ﻿@model SwimmingLessonManagementSystem.Models.EnrollmentDto
 
+@{
+    ViewBag.Title = "Enrollment Details";
+}
+
 <h2>Enrollment Details</h2>
 
 <div>
-    <h4>EnrollmentDto</h4>
+    <h4>Enrollment</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.LessonID)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.LessonID)
-        </dd>
+        <dt>Lesson</dt>
+        <dd>@Model.LessonTitle</dd>
 
-        <!-- Add other fields as needed -->
+        <dt>Student</dt>
+        <dd>@Model.StudentName</dd>
 
+        <dt>Progress</dt>
+        <dd>@Model.Progress</dd>
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.EnrollmentID }) |
-    @Html.ActionLink("Back to List", "List")
-</p>
+<div>
+    <a href="@Url.Action("Edit", "Enrollment", new { id = Model.EnrollmentID })" class="btn btn-primary">Edit</a> |
+    <a href="@Url.Action("List", "Enrollment")" class="btn btn-default">Back to List</a>
+</div>

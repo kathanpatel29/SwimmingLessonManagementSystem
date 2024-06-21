@@ -1,35 +1,35 @@
 ﻿@model IEnumerable<SwimmingLessonManagementSystem.Models.EnrollmentDto>
 
-<h2>Enrollments</h2>
+@{
+    ViewBag.Title = "Enrollment List";
+}
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<h2>Enrollment List</h2>
 
 <table class="table">
-    <tr>
-        <th>Enrollment ID</th>
-        <th>Lesson ID</th>
-        <th>Lesson Title</th>
-        <th>Student ID</th>
-        <th>Student Name</th>
-        <th>Progress</th>
-        <th>Action</th>
-    </tr>
-    @foreach (var item in Model)
-    {
+    <thead>
         <tr>
-            <td>@item.EnrollmentID</td>
-            <td>@item.LessonID</td>
-            <td>@item.LessonTitle</td>
-            <td>@item.StudentID</td>
-            <td>@item.StudentName</td>
-            <td>@item.Progress</td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.EnrollmentID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.EnrollmentID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.EnrollmentID })
-            </td>
+            <th>Lesson</th>
+            <th>Student</th>
+            <th>Progress</th>
+            <th>Actions</th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var enrollment in Model)
+        {
+            <tr>
+                <td>@enrollment.LessonTitle</td>
+                <td>@enrollment.StudentName</td>
+                <td>@enrollment.Progress</td>
+                <td>
+                    <a href="@Url.Action("Details", "Enrollment", new { id = enrollment.EnrollmentID })">Details</a> |
+                    <a href="@Url.Action("Edit", "Enrollment", new { id = enrollment.EnrollmentID })">Edit</a> |
+                    <a href="@Url.Action("Delete", "Enrollment", new { id = enrollment.EnrollmentID })">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
+
+<a href="@Url.Action("Create", "Enrollment")" class="btn btn-primary">Create New Enrollment</a>

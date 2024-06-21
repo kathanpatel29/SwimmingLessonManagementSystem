@@ -154,7 +154,7 @@ namespace SwimmingLessonManagementSystem.Controllers
 
         /// <summary>
         /// Deletes an existing enrollment record from the database.
-        /// </summary>
+        /// </summary>2222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222.
         /// <param name="id">The ID of the enrollment to delete.</param>
         /// <returns>Ok containing the deleted Enrollment object, or NotFound if enrollment not found.</returns>
         /// <example>
