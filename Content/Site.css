@@ -17,7 +17,12 @@
    will truncate terms that are too long to fit in the left column 
 */
 .dl-horizontal dt {
+    color: black;
     white-space: normal;
+}
+
+dl{
+    color:  black;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */

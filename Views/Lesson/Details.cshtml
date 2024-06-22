@@ -1,19 +1,65 @@
-﻿﻿@model SwimmingLessonManagementSystem.Models.LessonDto
+﻿@model SwimmingLessonManagementSystem.Models.LessonDto
 
-<h2>Lesson Details</h2>
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
 
 <div>
-    <h4>Lesson</h4>
+    <h4>LessonDto</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>ID</dt>
-        <dd>@Model.LessonID</dd>
-        <dt>Title</dt>
-        <dd>@Model.Title</dd>
-        <dt>Description</dt>
-        <dd>@Model.Description</dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Time)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Time)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InstructorName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InstructorName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Capacity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Capacity)
+        </dd>
     </dl>
 </div>
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.LessonID }) |
     @Html.ActionLink("Back to List", "List")

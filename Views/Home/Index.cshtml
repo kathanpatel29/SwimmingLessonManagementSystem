@@ -4,50 +4,48 @@
 
 <h2>Welcome to Swimming Lesson Management System</h2>
 
-    <div>
-        <p>What would you like to do?</p>
-        <ul>
-            <li>@Html.ActionLink("List Enrollments", "List", "Enrollment")</li>
-            <li>@Html.ActionLink("Add Enrollment", "Create", "Enrollment")</li>
-            <li>@Html.ActionLink("Manage Lessons", "Index", "Lesson")</li>
-            <li>@Html.ActionLink("Add Lesson", "Create", "Lesson")</li>
-        </ul>
-    </div>
+<div>
+    <p>What would you like to do?</p>
+    <ul>
+        <li>@Html.ActionLink("List Enrollments", "List", "Enrollment")</li>
+        <li>@Html.ActionLink("Add Enrollment", "Create", "Enrollment")</li>
+        <li>@Html.ActionLink("Add Lesson", "Create", "Lesson")</li>
+    </ul>
+</div>
 
-    <section id="section">
-        <div class="section-container">
-            <h2>Photo Gallery</h2>
-            <div class="carousel-container">
-                <div class="carousel">
-                    <button id="pre-button" class="prev-btn">&lt;</button>
-                    <div class="carousel-images">
-                        <div class="gallery-image-container">
-                            <img class="gallery-image" src="~/Content/images/image1.png" alt="Gallery Image 1" width="300" height="200">
-                        </div>
-                        <div class="gallery-image-container">
-                            <img class="gallery-image" src="~/Content/images/image2.png" alt="Gallery Image 2" width="300" height="200">
-                        </div>
-                        <div class="gallery-image-container">
-                            <img class="gallery-image" src="~/Content/images/image3.png" alt="Gallery Image 3" width="300" height="200">
-                        </div>
-                        <div class="gallery-image-container">
-                            <img class="gallery-image" src="~/Content/images/image4.png" alt="Gallery Image 4" width="300" height="200">
-                        </div>
-                        <div class="gallery-image-container">
-                            <img class="gallery-image" src="~/Content/images/image5.png" alt="Gallery Image 5" width="300" height="200">
-                        </div>
-                        <div class="gallery-image-container">
-                            <img class="gallery-image" src="~/Content/images/image6.png" alt="Gallery Image 6" width="300" height="200">
-                        </div>
-                        <div class="gallery-image-container">
-                            <img class="gallery-image" src="~/Content/images/image7.png" alt="Gallery Image 7" width="300" height="200">
-                        </div>
+<section id="section">
+    <div class="section-container">
+        <h2>Photo Gallery</h2>
+        <div class="carousel-container">
+            <div class="carousel">
+                <button id="prev-button" class="prev-btn">&lt;</button>
+                <div class="carousel-images">
+                    <div class="gallery-image-container">
+                        <img class="gallery-image" src="~/Content/images/image1.png" alt="Gallery Image 1" width="300" height="200">
                     </div>
-                    <button id="next-button" class="next-btn">&gt;</button>
+                    <div class="gallery-image-container">
+                        <img class="gallery-image" src="~/Content/images/image2.png" alt="Gallery Image 2" width="300" height="200">
+                    </div>
+                    <div class="gallery-image-container">
+                        <img class="gallery-image" src="~/Content/images/image3.png" alt="Gallery Image 3" width="300" height="200">
+                    </div>
+                    <div class="gallery-image-container">
+                        <img class="gallery-image" src="~/Content/images/image4.png" alt="Gallery Image 4" width="300" height="200">
+                    </div>
+                    <div class="gallery-image-container">
+                        <img class="gallery-image" src="~/Content/images/image5.png" alt="Gallery Image 5" width="300" height="200">
+                    </div>
+                    <div class="gallery-image-container">
+                        <img class="gallery-image" src="~/Content/images/image6.png" alt="Gallery Image 6" width="300" height="200">
+                    </div>
+
                 </div>
+                <button id="next-button" class="next-btn">&gt;</button>
             </div>
         </div>
-    </section>
-@section scripts {
+    </div>
+</section>
+
+@section Scripts {
     <script src="~/Scripts/script.js"></script>
 }

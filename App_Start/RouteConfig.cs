@@ -13,6 +13,7 @@ namespace SwimmingLessonManagementSystem
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            // Default MVC route
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

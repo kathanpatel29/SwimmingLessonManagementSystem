@@ -11,22 +11,39 @@
     <h4>Enrollment</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>Lesson</dt>
-        <dd>@Model.LessonTitle</dd>
-
-        <dt>Student</dt>
-        <dd>@Model.StudentName</dd>
-
-        <dt>Progress</dt>
-        <dd>@Model.Progress</dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LessonTitle)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LessonTitle)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.StudentName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StudentName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EnrollmentDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EnrollmentDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Progress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Progress)
+        </dd>
     </dl>
 
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
+
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-danger" /> |
-            <a href="@Url.Action("List", "Enrollment")" class="btn btn-default">Back to List</a>
+            @Html.ActionLink("Back to List", "List")
         </div>
     }
 </div>

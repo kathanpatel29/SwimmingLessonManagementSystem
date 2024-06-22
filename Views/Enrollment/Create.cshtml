@@ -1,4 +1,4 @@
-﻿@model SwimmingLessonManagementSystem.Models.EnrollmentDto
+﻿@model SwimmingLessonManagementSystem.Models.Enrollment
 
 @{
     ViewBag.Title = "Create Enrollment";
@@ -13,10 +13,20 @@
     <div class="form-horizontal">
         <h4>Enrollment</h4>
         <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EnrollmentDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EnrollmentDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.EnrollmentDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
         <div class="form-group">
             @Html.LabelFor(model => model.LessonID, "Lesson", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("LessonID", null, "Select Lesson", new { @class = "form-control" })
+                @Html.DropDownList("LessonID", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.LessonID, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -24,7 +34,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.StudentID, "Student", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("StudentID", null, "Select Student", new { @class = "form-control" })
+                @Html.DropDownList("StudentID", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.StudentID, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -46,5 +56,9 @@
 }
 
 <div>
-    <a href="@Url.Action("List", "Enrollment")">Back to List</a>
+    @Html.ActionLink("Back to List", "List")
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

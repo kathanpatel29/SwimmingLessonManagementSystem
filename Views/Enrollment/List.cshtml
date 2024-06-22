@@ -1,35 +1,54 @@
 ﻿@model IEnumerable<SwimmingLessonManagementSystem.Models.EnrollmentDto>
 
 @{
-    ViewBag.Title = "Enrollment List";
+    ViewBag.Title = "Enrollments";
 }
 
-<h2>Enrollment List</h2>
+<h2>Enrollments</h2>
 
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
 <table class="table">
     <thead>
         <tr>
-            <th>Lesson</th>
-            <th>Student</th>
-            <th>Progress</th>
-            <th>Actions</th>
+            <th>
+                @Html.DisplayNameFor(model => model.EnrollmentDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LessonTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Progress)
+            </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var enrollment in Model)
+        @foreach (var item in Model)
         {
             <tr>
-                <td>@enrollment.LessonTitle</td>
-                <td>@enrollment.StudentName</td>
-                <td>@enrollment.Progress</td>
                 <td>
-                    <a href="@Url.Action("Details", "Enrollment", new { id = enrollment.EnrollmentID })">Details</a> |
-                    <a href="@Url.Action("Edit", "Enrollment", new { id = enrollment.EnrollmentID })">Edit</a> |
-                    <a href="@Url.Action("Delete", "Enrollment", new { id = enrollment.EnrollmentID })">Delete</a>
+                    @Html.DisplayFor(modelItem => item.EnrollmentDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LessonTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudentName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Progress)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.EnrollmentID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.EnrollmentID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.EnrollmentID })
                 </td>
             </tr>
         }
     </tbody>
 </table>
-
-<a href="@Url.Action("Create", "Enrollment")" class="btn btn-primary">Create New Enrollment</a>

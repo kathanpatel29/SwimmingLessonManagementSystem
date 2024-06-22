@@ -1,188 +1,150 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
-using System.Net.Http;
-using System.Diagnostics;
 using SwimmingLessonManagementSystem.Models;
-using System.Web.Script.Serialization;
 
 namespace SwimmingLessonManagementSystem.Controllers
 {
-    /// <summary>
-    /// Controller for handling views and actions related to enrollments.
-    /// </summary>
     public class EnrollmentController : Controller
     {
-        private static readonly HttpClient client;
-        private JavaScriptSerializer jss = new JavaScriptSerializer();
+        private ApplicationDbContext db = new ApplicationDbContext();
 
-        static EnrollmentController()
-        {
-            // Set up HttpClient with base address
-            client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:44358/api/enrollmentdata/");
-        }
-
-        /// <summary>
-        /// Displays a list of enrollments.
-        /// </summary>
-        /// <returns>ActionResult containing a view with a list of EnrollmentDto objects.</returns>
-        /// <example>
-        /// GET: Enrollment/List
-        /// </example>
+        // GET: Enrollment
         public ActionResult List()
         {
-            string url = "listenrollments";
-            HttpResponseMessage response = client.GetAsync(url).Result;
+            var enrollments = db.Enrollments.Select(e => new EnrollmentDto
+            {
+                EnrollmentID = e.EnrollmentID,
+                EnrollmentDate = e.EnrollmentDate,
+                LessonID = e.LessonID,
+                LessonTitle = e.Lesson.Title,
+                StudentID = e.StudentID,
+                StudentName = e.Student.Username,
+                Progress = e.Progress
+            }).ToList();
 
-            // Deserialize response content to a list of EnrollmentDto objects
-            IEnumerable<EnrollmentDto> enrollments = response.Content.ReadAsAsync<IEnumerable<EnrollmentDto>>().Result;
-
-            // Render the view with the list of enrollments
             return View(enrollments);
         }
 
-        /// <summary>
-        /// Displays details of a specific enrollment.
-        /// </summary>
-        /// <param name="id">The ID of the enrollment to display.</param>
-        /// <returns>ActionResult containing a view with details of the selected EnrollmentDto object.</returns>
-        /// <example>
-        /// GET: Enrollment/Details/1
-        /// </example>
+        // GET: Enrollment/Details/5
         public ActionResult Details(int id)
         {
-            string url = "findenrollment/" + id;
-            HttpResponseMessage response = client.GetAsync(url).Result;
+            var enrollment = db.Enrollments.Where(e => e.EnrollmentID == id)
+                .Select(e => new EnrollmentDto
+                {
+                    EnrollmentID = e.EnrollmentID,
+                    EnrollmentDate = e.EnrollmentDate,
+                    LessonID = e.LessonID,
+                    LessonTitle = e.Lesson.Title,
+                    StudentID = e.StudentID,
+                    StudentName = e.Student.Username,
+                    Progress = e.Progress
+                }).FirstOrDefault();
 
-            // Deserialize response content to an EnrollmentDto object
-            EnrollmentDto selectedEnrollment = response.Content.ReadAsAsync<EnrollmentDto>().Result;
+            if (enrollment == null)
+            {
+                return HttpNotFound();
+            }
 
-            // Render the view with the selected enrollment details
-            return View(selectedEnrollment);
+            return View(enrollment);
         }
 
-        /// <summary>
-        /// Displays the form for creating a new enrollment.
-        /// </summary>
-        /// <returns>ActionResult containing a view for creating a new EnrollmentDto object.</returns>
-        /// <example>
-        /// GET: Enrollment/Create
-        /// </example>
+        // GET: Enrollment/Create
         public ActionResult Create()
         {
+            ViewBag.LessonID = new SelectList(db.Lessons, "LessonID", "Title");
+            ViewBag.StudentID = new SelectList(db.Users.Where(u => u.Role == "Student"), "UserID", "Username");
             return View();
         }
 
-        /// <summary>
-        /// Handles submission of the form for creating a new enrollment.
-        /// </summary>
-        /// <param name="enrollment">The EnrollmentDto object containing data for the new enrollment.</param>
-        /// <returns>ActionResult that redirects to the list of enrollments after successful creation, or re-displays the form on failure.</returns>
-        /// <example>
-        /// POST: Enrollment/Create
-        /// </example>
+        // POST: Enrollment/Create
         [HttpPost]
-        public ActionResult Create(EnrollmentDto enrollment)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "EnrollmentID,EnrollmentDate,LessonID,StudentID,Progress")] Enrollment enrollment)
         {
-            string url = "addenrollment";
-            HttpResponseMessage response = client.PostAsJsonAsync(url, enrollment).Result;
-            if (response.IsSuccessStatusCode)
+            if (ModelState.IsValid)
             {
-                // Redirect to the list of enrollments after successful creation
-                return RedirectToAction("List");
+                db.Enrollments.Add(enrollment);
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
-            else
-            {
-                // Handle error (display error message or retry)
-                return View(enrollment);
-            }
+
+            ViewBag.LessonID = new SelectList(db.Lessons, "LessonID", "Title", enrollment.LessonID);
+            ViewBag.StudentID = new SelectList(db.Users.Where(u => u.Role == "Student"), "UserID", "Username", enrollment.StudentID);
+            return View(enrollment);
         }
 
-        /// <summary>
-        /// Displays the form for editing a specific enrollment.
-        /// </summary>
-        /// <param name="id">The ID of the enrollment to edit.</param>
-        /// <returns>ActionResult containing a view for editing the selected EnrollmentDto object.</returns>
-        /// <example>
-        /// GET: Enrollment/Edit/1
-        /// </example>
+        // GET: Enrollment/Edit/5
         public ActionResult Edit(int id)
         {
-            string url = "findenrollment/" + id;
-            HttpResponseMessage response = client.GetAsync(url).Result;
-            EnrollmentDto selectedEnrollment = response.Content.ReadAsAsync<EnrollmentDto>().Result;
-            return View(selectedEnrollment);
+            Enrollment enrollment = db.Enrollments.Find(id);
+            if (enrollment == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.LessonID = new SelectList(db.Lessons, "LessonID", "Title", enrollment.LessonID);
+            ViewBag.StudentID = new SelectList(db.Users.Where(u => u.Role == "Student"), "UserID", "Username", enrollment.StudentID);
+            return View(enrollment);
         }
 
-        /// <summary>
-        /// Handles submission of the form for editing a specific enrollment.
-        /// </summary>
-        /// <param name="id">The ID of the enrollment to edit.</param>
-        /// <param name="enrollment">The updated EnrollmentDto object containing new data.</param>
-        /// <returns>ActionResult that redirects to the details view of the updated enrollment after successful update, or re-displays the edit form on failure.</returns>
-        /// <example>
-        /// POST: Enrollment/Edit/1
-        /// </example>
+        // POST: Enrollment/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, EnrollmentDto enrollment)
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "EnrollmentID,EnrollmentDate,LessonID,StudentID,Progress")] Enrollment enrollment)
         {
-            string url = "updateenrollment/" + id;
-            HttpResponseMessage response = client.PutAsJsonAsync(url, enrollment).Result;
-            if (response.IsSuccessStatusCode)
+            if (ModelState.IsValid)
             {
-                // Redirect to the details of the updated enrollment
-                return RedirectToAction("Details", new { id });
+                db.Entry(enrollment).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
-            else
-            {
-                // Handle error (display error message or retry)
-                return View(enrollment);
-            }
+
+            ViewBag.LessonID = new SelectList(db.Lessons, "LessonID", "Title", enrollment.LessonID);
+            ViewBag.StudentID = new SelectList(db.Users.Where(u => u.Role == "Student"), "UserID", "Username", enrollment.StudentID);
+            return View(enrollment);
         }
 
-        /// <summary>
-        /// Displays confirmation for deleting a specific enrollment.
-        /// </summary>
-        /// <param name="id">The ID of the enrollment to delete.</param>
-        /// <returns>ActionResult containing a view for confirming deletion of the selected EnrollmentDto object.</returns>
-        /// <example>
-        /// GET: Enrollment/Delete/1
-        /// </example>
+        // GET: Enrollment/Delete/5
         public ActionResult Delete(int id)
         {
-            string url = "findenrollment/" + id;
-            HttpResponseMessage response = client.GetAsync(url).Result;
-            EnrollmentDto selectedEnrollment = response.Content.ReadAsAsync<EnrollmentDto>().Result;
-            return View(selectedEnrollment);
+            var enrollment = db.Enrollments.Where(e => e.EnrollmentID == id)
+                .Select(e => new EnrollmentDto
+                {
+                    EnrollmentID = e.EnrollmentID,
+                    EnrollmentDate = e.EnrollmentDate,
+                    LessonID = e.LessonID,
+                    LessonTitle = e.Lesson.Title,
+                    StudentID = e.StudentID,
+                    StudentName = e.Student.Username,
+                    Progress = e.Progress
+                }).FirstOrDefault();
+
+            if (enrollment == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(enrollment);
         }
 
-        /// <summary>
-        /// Handles deletion of a specific enrollment.
-        /// </summary>
-        /// <param name="id">The ID of the enrollment to delete.</param>
-        /// <param name="collection">Form collection (unused in this method).</param>
-        /// <returns>ActionResult that redirects to the list of enrollments after successful deletion, or displays an error view on failure.</returns>
-        /// <example>
-        /// POST: Enrollment/Delete/5
-        /// </example>
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        // POST: Enrollment/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
         {
-            string url = "deleteenrollment/" + id;
-            HttpResponseMessage response = client.DeleteAsync(url).Result;
-            if (response.IsSuccessStatusCode)
+            Enrollment enrollment = db.Enrollments.Find(id);
+            db.Enrollments.Remove(enrollment);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
             {
-                // Redirect to the list of enrollments after successful deletion
-                return RedirectToAction("List");
+                db.Dispose();
             }
-            else
-            {
-                // Handle error (display error message or retry)
-                return View("Error");
-            }
+            base.Dispose(disposing);
         }
     }
 }
