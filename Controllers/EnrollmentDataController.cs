@@ -28,7 +28,8 @@ namespace SwimmingLessonManagementSystem.Controllers
                 LessonID = e.LessonID,
                 LessonTitle = e.Lesson.Title,
                 StudentID = e.StudentID,
-                StudentName = e.Student.Username
+                StudentName = e.Student.Username,
+                Progress = e.Progress,
             }));
 
             return enrollmentDtos;
@@ -53,7 +54,8 @@ namespace SwimmingLessonManagementSystem.Controllers
                 LessonID = enrollment.LessonID,
                 LessonTitle = enrollment.Lesson.Title,
                 StudentID = enrollment.StudentID,
-                StudentName = enrollment.Student.Username
+                StudentName = enrollment.Student.Username,
+                Progress = enrollment.Progress,
             };
 
             return Ok(enrollmentDto);
@@ -74,7 +76,8 @@ namespace SwimmingLessonManagementSystem.Controllers
             {
                 EnrollmentDate = enrollmentDto.EnrollmentDate,
                 LessonID = enrollmentDto.LessonID,
-                StudentID = enrollmentDto.StudentID
+                StudentID = enrollmentDto.StudentID,
+                Progress = enrollmentDto.Progress,
             };
 
             db.Enrollments.Add(enrollment);
