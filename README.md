@@ -13,7 +13,7 @@ Welcome to the Swimming Lesson Management System! This project is designed to he
 
 ### Prerequisites
 - Visual Studio 2022
-- .NET Framework 4.8
+- .NET Framework 4.7.2
 - SQL Server
 
 ### Installation
@@ -28,9 +28,10 @@ Welcome to the Swimming Lesson Management System! This project is designed to he
 3. **Restore NuGet Packages**
     Restore the necessary NuGet packages by right-clicking on the solution and selecting `Restore NuGet Packages`.
 
-4. **Update Database**
+4. **Apply Migrations**
     Run the following commands in the Package Manager Console to apply migrations and update the database:
     ```bash
+    Add-Migration InitialCreate
     Update-Database
     ```
 
