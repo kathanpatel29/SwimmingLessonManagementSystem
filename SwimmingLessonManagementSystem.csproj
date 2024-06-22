@@ -193,13 +193,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202406080107504_Initial.cs" />
-    <Compile Include="Migrations\202406080107504_Initial.designer.cs">
-      <DependentUpon>202406080107504_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\202406220341146_InitialCreate.cs" />
+    <Compile Include="Migrations\202406220341146_InitialCreate.designer.cs">
+      <DependentUpon>202406220341146_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202406212249128_InitialCreate.cs" />
-    <Compile Include="Migrations\202406212249128_InitialCreate.designer.cs">
-      <DependentUpon>202406212249128_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\202406220512449_DropEnrollmentsTable.cs" />
+    <Compile Include="Migrations\202406220512449_DropEnrollmentsTable.designer.cs">
+      <DependentUpon>202406220512449_DropEnrollmentsTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202406220513393_CreateEnrollmentsTable.cs" />
+    <Compile Include="Migrations\202406220513393_CreateEnrollmentsTable.designer.cs">
+      <DependentUpon>202406220513393_CreateEnrollmentsTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -338,11 +342,14 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202406080107504_Initial.resx">
-      <DependentUpon>202406080107504_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202406220341146_InitialCreate.resx">
+      <DependentUpon>202406220341146_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202406212249128_InitialCreate.resx">
-      <DependentUpon>202406212249128_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202406220512449_DropEnrollmentsTable.resx">
+      <DependentUpon>202406220512449_DropEnrollmentsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406220513393_CreateEnrollmentsTable.resx">
+      <DependentUpon>202406220513393_CreateEnrollmentsTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

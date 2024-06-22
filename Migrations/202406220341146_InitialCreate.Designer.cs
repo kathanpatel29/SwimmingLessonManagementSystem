@@ -13,7 +13,7 @@ namespace SwimmingLessonManagementSystem.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202406212249128_InitialCreate"; }
+            get { return "202406220341146_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

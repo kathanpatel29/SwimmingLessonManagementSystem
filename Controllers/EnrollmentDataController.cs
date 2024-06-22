@@ -1,10 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using System.Net;
 using System.Web.Http;
 using System.Web.Http.Description;
-using System.Data.Entity;
 using SwimmingLessonManagementSystem.Models;
-using System.Data.Entity.Infrastructure;
 
 namespace SwimmingLessonManagementSystem.Controllers
 {
@@ -15,9 +16,12 @@ namespace SwimmingLessonManagementSystem.Controllers
         // GET: api/EnrollmentData/ListEnrollments
         [HttpGet]
         [Route("api/EnrollmentData/ListEnrollments")]
-        public IQueryable<EnrollmentDto> ListEnrollments()
+        public IEnumerable<EnrollmentDto> ListEnrollments()
         {
-            var enrollments = db.Enrollments.Select(e => new EnrollmentDto
+            List<Enrollment> enrollments = db.Enrollments.Include(e => e.Lesson).Include(e => e.Student).ToList();
+            List<EnrollmentDto> enrollmentDtos = new List<EnrollmentDto>();
+
+            enrollments.ForEach(e => enrollmentDtos.Add(new EnrollmentDto()
             {
                 EnrollmentID = e.EnrollmentID,
                 EnrollmentDate = e.EnrollmentDate,
@@ -26,95 +30,100 @@ namespace SwimmingLessonManagementSystem.Controllers
                 StudentID = e.StudentID,
                 StudentName = e.Student.Username,
                 Progress = e.Progress
-            });
+            }));
 
-            return enrollments;
+            return enrollmentDtos;
         }
 
         // GET: api/EnrollmentData/FindEnrollment/5
+        [ResponseType(typeof(EnrollmentDto))]
         [HttpGet]
         [Route("api/EnrollmentData/FindEnrollment/{id}")]
-        [ResponseType(typeof(EnrollmentDto))]
         public IHttpActionResult FindEnrollment(int id)
         {
-            var enrollment = db.Enrollments.Where(e => e.EnrollmentID == id)
-                .Select(e => new EnrollmentDto
-                {
-                    EnrollmentID = e.EnrollmentID,
-                    EnrollmentDate = e.EnrollmentDate,
-                    LessonID = e.LessonID,
-                    LessonTitle = e.Lesson.Title,
-                    StudentID = e.StudentID,
-                    StudentName = e.Student.Username,
-                    Progress = e.Progress
-                }).FirstOrDefault();
-
+            Enrollment enrollment = db.Enrollments.Include(e => e.Lesson).Include(e => e.Student).FirstOrDefault(e => e.EnrollmentID == id);
             if (enrollment == null)
             {
                 return NotFound();
             }
 
-            return Ok(enrollment);
-        }
-
-        // POST: api/EnrollmentData/UpdateEnrollment/5
-        [HttpPost]
-        [Route("api/EnrollmentData/UpdateEnrollment/{id}")]
-        [ResponseType(typeof(void))]
-        public IHttpActionResult UpdateEnrollment(int id, Enrollment enrollment)
-        {
-            if (!ModelState.IsValid)
+            EnrollmentDto enrollmentDto = new EnrollmentDto()
             {
-                return BadRequest(ModelState);
-            }
+                EnrollmentID = enrollment.EnrollmentID,
+                EnrollmentDate = enrollment.EnrollmentDate,
+                LessonID = enrollment.LessonID,
+                LessonTitle = enrollment.Lesson.Title,
+                StudentID = enrollment.StudentID,
+                StudentName = enrollment.Student.Username,
+                Progress = enrollment.Progress
+            };
 
-            if (id != enrollment.EnrollmentID)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(enrollment).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!EnrollmentExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(enrollmentDto);
         }
 
         // POST: api/EnrollmentData/AddEnrollment
+        [ResponseType(typeof(EnrollmentDto))]
         [HttpPost]
         [Route("api/EnrollmentData/AddEnrollment")]
-        [ResponseType(typeof(Enrollment))]
-        public IHttpActionResult AddEnrollment(Enrollment enrollment)
+        public IHttpActionResult AddEnrollment(EnrollmentDto enrollmentDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
+            Enrollment enrollment = new Enrollment()
+            {
+                EnrollmentDate = enrollmentDto.EnrollmentDate,
+                LessonID = enrollmentDto.LessonID,
+                StudentID = enrollmentDto.StudentID,
+                Progress = enrollmentDto.Progress
+            };
 
             db.Enrollments.Add(enrollment);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = enrollment.EnrollmentID }, enrollment);
+            enrollmentDto.EnrollmentID = enrollment.EnrollmentID;
+            return CreatedAtRoute("DefaultApi", new { id = enrollment.EnrollmentID }, enrollmentDto);
         }
 
-        // POST: api/EnrollmentData/DeleteEnrollment/5
-        [HttpPost]
-        [Route("api/EnrollmentData/DeleteEnrollment/{id}")]
+        // PUT: api/EnrollmentData/UpdateEnrollment/5
+        [ResponseType(typeof(void))]
+        [HttpPut]
+        [Route("api/EnrollmentData/UpdateEnrollment/{id}")]
+        public IHttpActionResult UpdateEnrollment(int id, EnrollmentDto enrollmentDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != enrollmentDto.EnrollmentID)
+            {
+                return BadRequest();
+            }
+
+            Enrollment enrollment = db.Enrollments.Find(id);
+            if (enrollment == null)
+            {
+                return NotFound();
+            }
+
+            enrollment.EnrollmentDate = enrollmentDto.EnrollmentDate;
+            enrollment.LessonID = enrollmentDto.LessonID;
+            enrollment.StudentID = enrollmentDto.StudentID;
+            enrollment.Progress = enrollmentDto.Progress;
+
+            db.Entry(enrollment).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        // DELETE: api/EnrollmentData/DeleteEnrollment/5
         [ResponseType(typeof(Enrollment))]
+        [HttpDelete]
+        [Route("api/EnrollmentData/DeleteEnrollment/{id}")]
         public IHttpActionResult DeleteEnrollment(int id)
         {
             Enrollment enrollment = db.Enrollments.Find(id);
@@ -136,11 +145,6 @@ namespace SwimmingLessonManagementSystem.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private bool EnrollmentExists(int id)
-        {
-            return db.Enrollments.Count(e => e.EnrollmentID == id) > 0;
         }
     }
 }

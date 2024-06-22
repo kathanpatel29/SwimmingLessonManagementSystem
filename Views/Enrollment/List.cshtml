@@ -1,29 +1,19 @@
 ﻿@model IEnumerable<SwimmingLessonManagementSystem.Models.EnrollmentDto>
 
 @{
-    ViewBag.Title = "Enrollments";
+    ViewBag.Title = "Enrollment List";
 }
 
-<h2>Enrollments</h2>
+<h2>Enrollment List</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.EnrollmentDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LessonTitle)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StudentName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Progress)
-            </th>
+            <th>Enrollment ID</th>
+            <th>Enrollment Date</th>
+            <th>Lesson Title</th>
+            <th>Student Name</th>
+            <th>Progress</th>
             <th></th>
         </tr>
     </thead>
@@ -31,24 +21,21 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>@item.EnrollmentID</td>
+                <td>@item.EnrollmentDate.ToShortDateString()</td>
+                <td>@item.LessonTitle</td>
+                <td>@item.StudentName</td>
+                <td>@item.Progress</td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EnrollmentDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LessonTitle)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StudentName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Progress)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.EnrollmentID }) |
                     @Html.ActionLink("Details", "Details", new { id = item.EnrollmentID }) |
+                    @Html.ActionLink("Edit", "Edit", new { id = item.EnrollmentID }) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.EnrollmentID })
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>

@@ -15,11 +15,13 @@ namespace SwimmingLessonManagementSystem.Models
         public int LessonID { get; set; }
         public Lesson Lesson { get; set; }
 
+        [ForeignKey("Student")]
         public int StudentID { get; set; }
         public User Student { get; set; }
 
         public string Progress { get; set; }
     }
+
     public class EnrollmentDto
     {
         public int EnrollmentID { get; set; }

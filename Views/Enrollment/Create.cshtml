@@ -1,4 +1,4 @@
-﻿@model SwimmingLessonManagementSystem.Models.Enrollment
+﻿@model SwimmingLessonManagementSystem.Models.EnrollmentDto
 
 @{
     ViewBag.Title = "Create Enrollment";
@@ -18,7 +18,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.EnrollmentDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.EnrollmentDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.EnrollmentDate, new { htmlAttributes = new { @class = "form-control", type = "datetime-local" } })
                 @Html.ValidationMessageFor(model => model.EnrollmentDate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -26,7 +26,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.LessonID, "Lesson", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("LessonID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.EditorFor(model => model.LessonID, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.LessonID, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -34,7 +34,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.StudentID, "Student", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("StudentID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.EditorFor(model => model.StudentID, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.StudentID, "", new { @class = "text-danger" })
             </div>
         </div>
