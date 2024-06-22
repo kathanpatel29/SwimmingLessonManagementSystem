@@ -28,8 +28,7 @@ namespace SwimmingLessonManagementSystem.Controllers
                 LessonID = e.LessonID,
                 LessonTitle = e.Lesson.Title,
                 StudentID = e.StudentID,
-                StudentName = e.Student.Username,
-                Progress = e.Progress
+                StudentName = e.Student.Username
             }));
 
             return enrollmentDtos;
@@ -54,8 +53,7 @@ namespace SwimmingLessonManagementSystem.Controllers
                 LessonID = enrollment.LessonID,
                 LessonTitle = enrollment.Lesson.Title,
                 StudentID = enrollment.StudentID,
-                StudentName = enrollment.Student.Username,
-                Progress = enrollment.Progress
+                StudentName = enrollment.Student.Username
             };
 
             return Ok(enrollmentDto);
@@ -76,14 +74,14 @@ namespace SwimmingLessonManagementSystem.Controllers
             {
                 EnrollmentDate = enrollmentDto.EnrollmentDate,
                 LessonID = enrollmentDto.LessonID,
-                StudentID = enrollmentDto.StudentID,
-                Progress = enrollmentDto.Progress
+                StudentID = enrollmentDto.StudentID
             };
 
             db.Enrollments.Add(enrollment);
             db.SaveChanges();
 
             enrollmentDto.EnrollmentID = enrollment.EnrollmentID;
+
             return CreatedAtRoute("DefaultApi", new { id = enrollment.EnrollmentID }, enrollmentDto);
         }
 
@@ -112,7 +110,6 @@ namespace SwimmingLessonManagementSystem.Controllers
             enrollment.EnrollmentDate = enrollmentDto.EnrollmentDate;
             enrollment.LessonID = enrollmentDto.LessonID;
             enrollment.StudentID = enrollmentDto.StudentID;
-            enrollment.Progress = enrollmentDto.Progress;
 
             db.Entry(enrollment).State = EntityState.Modified;
             db.SaveChanges();

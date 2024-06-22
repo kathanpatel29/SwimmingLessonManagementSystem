@@ -6,36 +6,61 @@
 
 <h2>Enrollment List</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Enrollment ID</th>
-            <th>Enrollment Date</th>
-            <th>Lesson Title</th>
-            <th>Student Name</th>
-            <th>Progress</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.EnrollmentID</td>
-                <td>@item.EnrollmentDate.ToShortDateString()</td>
-                <td>@item.LessonTitle</td>
-                <td>@item.StudentName</td>
-                <td>@item.Progress</td>
-                <td>
-                    @Html.ActionLink("Details", "Details", new { id = item.EnrollmentID }) |
-                    @Html.ActionLink("Edit", "Edit", new { id = item.EnrollmentID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.EnrollmentID })
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+@using (Html.BeginForm("List", "Enrollment", FormMethod.Get))
+{
+    <p>
+        Search by Student or Lesson: @Html.TextBox("searchTerm") <br />
+        Start Date: @Html.TextBox("startDate", "", new { @type = "date" }) <br />
+        End Date: @Html.TextBox("endDate", "", new { @type = "date" }) <br />
+        Progress: @Html.TextBox("progress") <br />
+        <input type="submit" value="Filter" />
+    </p>
+}
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EnrollmentID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EnrollmentDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LessonTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Progress)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EnrollmentID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EnrollmentDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LessonTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Progress)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.EnrollmentID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.EnrollmentID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.EnrollmentID })
+            </td>
+        </tr>
+    }
+
+</table>

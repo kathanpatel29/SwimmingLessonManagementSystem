@@ -1,5 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -18,20 +19,41 @@ namespace SwimmingLessonManagementSystem.Controllers
         }
 
         // GET: Enrollment/List
-        public async Task<ActionResult> List()
+        public ActionResult List(string searchTerm, DateTime? startDate, DateTime? endDate, string progress)
         {
-            string url = "ListEnrollments";
-            HttpResponseMessage response = await client.GetAsync(url);
+            string url = "listenrollments";
+            HttpResponseMessage response = client.GetAsync(url).Result;
+
             if (response.IsSuccessStatusCode)
             {
-                IEnumerable<EnrollmentDto> enrollments = await response.Content.ReadAsAsync<IEnumerable<EnrollmentDto>>();
+                IEnumerable<EnrollmentDto> enrollments = response.Content.ReadAsAsync<IEnumerable<EnrollmentDto>>().Result;
+
+                if (!string.IsNullOrEmpty(searchTerm))
+                {
+                    enrollments = enrollments.Where(e => e.StudentName.Contains(searchTerm) || e.LessonTitle.Contains(searchTerm));
+                }
+
+                if (startDate.HasValue)
+                {
+                    enrollments = enrollments.Where(e => e.EnrollmentDate >= startDate.Value);
+                }
+
+                if (endDate.HasValue)
+                {
+                    enrollments = enrollments.Where(e => e.EnrollmentDate <= endDate.Value);
+                }
+
+                if (!string.IsNullOrEmpty(progress))
+                {
+                    enrollments = enrollments.Where(e => e.Progress.Equals(progress, StringComparison.OrdinalIgnoreCase));
+                }
+
                 return View(enrollments);
             }
-
-            // Log the error message for debugging
-            string errorMessage = await response.Content.ReadAsStringAsync();
-            ViewBag.ErrorMessage = errorMessage;
-            return View("Error");
+            else
+            {
+                return View("Error");
+            }
         }
 
         // GET: Enrollment/Details/1
@@ -45,7 +67,6 @@ namespace SwimmingLessonManagementSystem.Controllers
                 return View(selectedEnrollment);
             }
 
-            // Log the error message for debugging
             string errorMessage = await response.Content.ReadAsStringAsync();
             ViewBag.ErrorMessage = errorMessage;
             return View("Error");
@@ -88,7 +109,6 @@ namespace SwimmingLessonManagementSystem.Controllers
                 return View(selectedEnrollment);
             }
 
-            // Log the error message for debugging
             string errorMessage = await response.Content.ReadAsStringAsync();
             ViewBag.ErrorMessage = errorMessage;
             return View("Error");
@@ -111,7 +131,6 @@ namespace SwimmingLessonManagementSystem.Controllers
                 return RedirectToAction("List");
             }
 
-            // Log the error message for debugging
             string errorMessage = await response.Content.ReadAsStringAsync();
             ModelState.AddModelError("", $"Failed to update enrollment. Please try again. Error: {errorMessage}");
             return View(enrollment);
@@ -128,7 +147,6 @@ namespace SwimmingLessonManagementSystem.Controllers
                 return View(selectedEnrollment);
             }
 
-            // Log the error message for debugging
             string errorMessage = await response.Content.ReadAsStringAsync();
             ViewBag.ErrorMessage = errorMessage;
             return View("Error");
@@ -146,7 +164,6 @@ namespace SwimmingLessonManagementSystem.Controllers
                 return RedirectToAction("List");
             }
 
-            // Log the error message for debugging
             string errorMessage = await response.Content.ReadAsStringAsync();
             ModelState.AddModelError("", $"Failed to delete enrollment. Please try again. Error: {errorMessage}");
             return View("Error");

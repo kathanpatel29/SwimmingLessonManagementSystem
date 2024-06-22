@@ -205,6 +205,10 @@
     <Compile Include="Migrations\202406220513393_CreateEnrollmentsTable.designer.cs">
       <DependentUpon>202406220513393_CreateEnrollmentsTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202406220716078_RemoveProgressAndAttendance.cs" />
+    <Compile Include="Migrations\202406220716078_RemoveProgressAndAttendance.designer.cs">
+      <DependentUpon>202406220716078_RemoveProgressAndAttendance.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Enrollment.cs" />
@@ -238,6 +242,7 @@
     <Content Include="Content\images\image4.png" />
     <Content Include="Content\images\image5.png" />
     <Content Include="Content\images\image6.png" />
+    <Content Include="Content\images\image7.png" />
     <Content Include="Content\images\video.mp4" />
     <Content Include="Content\styles.css" />
     <Content Include="favicon.ico" />
@@ -350,6 +355,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202406220513393_CreateEnrollmentsTable.resx">
       <DependentUpon>202406220513393_CreateEnrollmentsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406220716078_RemoveProgressAndAttendance.resx">
+      <DependentUpon>202406220716078_RemoveProgressAndAttendance.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
